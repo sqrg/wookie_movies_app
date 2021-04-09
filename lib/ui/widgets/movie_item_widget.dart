@@ -5,11 +5,11 @@ import 'package:wookie_movies_app/core/models/movie.dart';
 class MovieItemWidget extends StatelessWidget {
   const MovieItemWidget({
     Key key,
-    @required this.movie,
+    @required this.posterUrl,
     @required this.onTap,
   }) : super(key: key);
 
-  final Movie movie;
+  final String posterUrl;
   final Function onTap;
 
   @override
@@ -18,7 +18,7 @@ class MovieItemWidget extends StatelessWidget {
       onTap: onTap,
       child: SizedBox(
         width: 150,
-        child: Image.network(movie.poster),
+        child: Image.network(posterUrl),
       ),
     );
   }

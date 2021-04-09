@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:stacked/stacked.dart';
-import 'package:wookie_movies_app/app.router.dart';
+
 import 'package:wookie_movies_app/core/models/movie.dart';
 import 'package:wookie_movies_app/core/viewmodels/movies_viewmodel.dart';
+
 import 'package:wookie_movies_app/ui/widgets/movie_item_widget.dart';
 
 class MoviesView extends StatelessWidget {
@@ -26,9 +28,9 @@ class MoviesView extends StatelessWidget {
                   return Container(
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     child: MovieItemWidget(
-                      movie: movie,
+                      posterUrl: movie.poster,
                       onTap: () {
-                        vm.goToMovieDetail(movie);
+                        vm.navigateToMovieDetail(movie);
                       },
                     ),
                   );
