@@ -32,7 +32,7 @@ class Movie {
   String length;
   String overview;
   String poster;
-  String releasedOn;
+  DateTime releasedOn;
   String slug;
   String title;
 
@@ -55,7 +55,7 @@ class Movie {
     length = json['length'];
     overview = json['overview'];
     poster = json['poster'];
-    releasedOn = json['released_on'];
+    releasedOn = DateTime.parse(json['released_on']);
     slug = json['slug'];
     title = json['title'];
   }
