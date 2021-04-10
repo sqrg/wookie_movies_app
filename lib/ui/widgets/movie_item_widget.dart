@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:wookie_movies_app/core/models/movie.dart';
-
 class MovieItemWidget extends StatelessWidget {
   const MovieItemWidget({
     Key key,
@@ -18,7 +16,15 @@ class MovieItemWidget extends StatelessWidget {
       onTap: onTap,
       child: SizedBox(
         width: 150,
-        child: Image.network(posterUrl),
+        child: Image.network(
+          posterUrl,
+          loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent loadingProgress) {
+            if (loadingProgress == null) {
+              return child;
+            }
+            return Center(child: CircularProgressIndicator());
+          },
+        ),
       ),
     );
   }
