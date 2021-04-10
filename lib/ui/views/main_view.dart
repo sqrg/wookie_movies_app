@@ -59,22 +59,25 @@ class MainViewState extends State<MainView> with TickerProviderStateMixin {
             centerTitle: true,
           ),
           drawer: Drawer(
-            child: SafeArea(
-              child: ListView(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Use dark theme'),
-                      Switch(
-                          value: vm.isDarkModeEnabled,
-                          onChanged: (bool newValue) {
-                            vm.changeTheme(newValue);
-                          }),
-                    ],
-                  )
-                ],
+            child: Container(
+              color: Theme.of(context).backgroundColor,
+              child: SafeArea(
+                child: ListView(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Use dark theme'),
+                        Switch(
+                            value: vm.isDarkModeEnabled,
+                            onChanged: (bool newValue) {
+                              vm.changeTheme(newValue);
+                            }),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           ),

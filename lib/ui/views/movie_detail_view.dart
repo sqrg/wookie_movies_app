@@ -3,6 +3,7 @@ import 'package:stacked/stacked.dart';
 import 'package:wookie_movies_app/core/models/movie.dart';
 import 'package:wookie_movies_app/core/viewmodels/movie_detail_viewmodel.dart';
 import 'package:wookie_movies_app/ui/widgets/movie_backdrop_widget.dart';
+import 'package:wookie_movies_app/ui/widgets/movie_cast_widget.dart';
 import 'package:wookie_movies_app/ui/widgets/movie_poster_widget.dart';
 import 'package:wookie_movies_app/ui/widgets/movie_short_info_widget.dart';
 import 'package:wookie_movies_app/ui/widgets/movie_star_rating_widget.dart';
@@ -46,18 +47,24 @@ class MovieDetailView extends StatelessWidget {
                           child: Container(
                             margin: EdgeInsets.only(top: 30),
                             child: Center(
-                              child: MovieStarRatingWidget(3),
+                              child: MovieStarRatingWidget(movie.starRating),
                             ),
                           ),
                         ),
                       ],
                     ),
-                    MovieShortInfoWidget(movie: movie),
-                    Text('Cast: ${movie.cast}', style: Theme.of(context).textTheme.bodyText1),
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 15),
+                      child: MovieShortInfoWidget(movie: movie),
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 15),
+                      child: MovieCastWidget(movie: movie),
+                    ),
                     Text(
                       movie.overview,
                       textAlign: TextAlign.justify,
-                      style: Theme.of(context).textTheme.bodyText1,
+                      style: Theme.of(context).textTheme.bodyText2,
                     ),
                     SizedBox(height: 40)
                   ],

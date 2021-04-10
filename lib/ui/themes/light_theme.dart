@@ -8,7 +8,9 @@ ThemeData getLightTheme() {
   return ThemeData(
     primaryColor: baseTheme.primaryColor,
     textTheme: TextTheme(
-      bodyText1: TextStyle(color: Colors.black)
+      bodyText1: TextStyle(color: Colors.black, fontSize: 20),
+      bodyText2: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w300),
+      headline1: TextStyle(color: Colors.black, fontSize: 24),
     ),
     backgroundColor: Colors.white,
     textButtonTheme: baseTheme.textButtonTheme,
