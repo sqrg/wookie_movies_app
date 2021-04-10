@@ -1,6 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_themes/stacked_themes.dart';
+
 import 'package:wookie_movies_app/app.locator.dart';
 
 import 'package:wookie_movies_app/constants.dart' as Constants;

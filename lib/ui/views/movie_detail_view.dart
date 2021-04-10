@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:stacked/stacked.dart';
-import 'package:wookie_movies_app/core/models/movie.dart';
+
+import 'package:wookie_movies_app/core/data/moor_database.dart';
 import 'package:wookie_movies_app/core/viewmodels/movie_detail_viewmodel.dart';
+
 import 'package:wookie_movies_app/ui/widgets/movie_backdrop_widget.dart';
 import 'package:wookie_movies_app/ui/widgets/movie_cast_widget.dart';
 import 'package:wookie_movies_app/ui/widgets/movie_poster_widget.dart';
@@ -47,7 +50,8 @@ class MovieDetailView extends StatelessWidget {
                           child: Container(
                             margin: EdgeInsets.only(top: 30),
                             child: Center(
-                              child: MovieStarRatingWidget(movie.starRating),
+                              // TODO
+                              child: MovieStarRatingWidget(2),
                             ),
                           ),
                         ),

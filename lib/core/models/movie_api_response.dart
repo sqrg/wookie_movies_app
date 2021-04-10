@@ -1,5 +1,7 @@
+import 'package:wookie_movies_app/core/data/moor_database.dart';
+
 class MoviesApiResponse {
-  List<Movie> movies;
+  List<MovieApiResponse> movies;
 
   MoviesApiResponse({this.movies});
 
@@ -7,7 +9,7 @@ class MoviesApiResponse {
     if (json['movies'] != null) {
       movies = [];
       json['movies'].forEach((v) {
-        movies.add(new Movie.fromJson(v));
+        movies.add(new MovieApiResponse.fromJson(v));
       });
     }
   }
@@ -21,7 +23,7 @@ class MoviesApiResponse {
   }
 }
 
-class Movie {
+class MovieApiResponse {
   String backdrop;
   List<String> cast;
   String classification;
@@ -36,9 +38,10 @@ class Movie {
   String slug;
   String title;
 
-  Movie({this.backdrop, this.cast, this.classification, this.director, this.genres, this.id, this.imdbRating, this.length, this.overview, this.poster, this.releasedOn, this.slug, this.title});
+  MovieApiResponse(
+      {this.backdrop, this.cast, this.classification, this.director, this.genres, this.id, this.imdbRating, this.length, this.overview, this.poster, this.releasedOn, this.slug, this.title});
 
-  Movie.fromJson(Map<String, dynamic> json) {
+  MovieApiResponse.fromJson(Map<String, dynamic> json) {
     backdrop = json['backdrop'];
     cast = json['cast'].cast<String>();
     classification = json['classification'];
@@ -94,5 +97,17 @@ class Movie {
     }
 
     return tempString.substring(0, tempString.length - 2);
+  }
+
+  Movie toDbMovie() {
+    return Movie(
+      backdrop: backdrop,
+      imdbRating: imdbRating,
+      length: length,
+      overview: overview,
+      poster: poster,
+      title: title,
+      releasedOn: releasedOn,
+    );
   }
 }

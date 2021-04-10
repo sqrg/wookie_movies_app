@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:stacked/stacked.dart';
 
-import 'package:wookie_movies_app/core/models/movie.dart';
+import 'package:wookie_movies_app/core/data/moor_database.dart';
 import 'package:wookie_movies_app/core/viewmodels/movies_viewmodel.dart';
 
 import 'package:wookie_movies_app/ui/widgets/movie_item_widget.dart';

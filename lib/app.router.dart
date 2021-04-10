@@ -9,7 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import 'core/models/movie.dart';
+import 'core/data/moor_database.dart';
 import 'ui/views/main_view.dart';
 import 'ui/views/movie_detail_view.dart';
 

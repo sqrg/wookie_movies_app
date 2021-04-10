@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:wookie_movies_app/core/models/movie.dart';
+import 'package:wookie_movies_app/core/data/moor_database.dart';
 
 class MovieBackdropWidget extends StatelessWidget {
   const MovieBackdropWidget({
