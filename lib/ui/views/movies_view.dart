@@ -5,7 +5,7 @@ import 'package:stacked/stacked.dart';
 import 'package:wookie_movies_app/core/data/moor_database.dart';
 import 'package:wookie_movies_app/core/viewmodels/movies_viewmodel.dart';
 
-import 'package:wookie_movies_app/ui/widgets/movie_item_widget.dart';
+import 'package:wookie_movies_app/ui/widgets/movies_horizontal_list_widget.dart';
 
 class MoviesView extends StatelessWidget {
   MoviesView({Key key}) : super(key: key);
@@ -40,21 +40,10 @@ class MoviesView extends StatelessWidget {
                           )),
                       SizedBox(
                         height: 200,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: movies.length,
-                          itemBuilder: (BuildContext context, int movieIndex) {
-                            Movie movie = movies[movieIndex];
-
-                            return Container(
-                              margin: EdgeInsets.symmetric(horizontal: 10),
-                              child: MovieItemWidget(
-                                posterUrl: movie.poster,
-                                onTap: () {
-                                  vm.navigateToMovieDetail(movie);
-                                },
-                              ),
-                            );
+                        child: MoviesHorizontalList(
+                          movies: movies,
+                          onTap: (Movie m) {
+                            vm.navigateToMovieDetail(m);
                           },
                         ),
                       ),
@@ -67,3 +56,5 @@ class MoviesView extends StatelessWidget {
     );
   }
 }
+
+
