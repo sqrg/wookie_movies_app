@@ -15,7 +15,7 @@ class MovieShortInfoWidget extends StatelessWidget {
     return Text(
       '${DateFormat('yyyy').format(movie.releasedOn)} | ${movie.length} | ${movie.director.first}',
       textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 24),
+      style: Theme.of(context).textTheme.bodyText1,
     );
   }
 }

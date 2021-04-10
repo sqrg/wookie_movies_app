@@ -8,12 +8,12 @@ import 'package:wookie_movies_app/core/api/api_client.dart';
 import 'package:wookie_movies_app/core/services/movies_service.dart';
 import 'package:wookie_movies_app/core/services/overlay_service.dart';
 
-import 'package:wookie_movies_app/ui/views/movies_view.dart';
+import 'package:wookie_movies_app/ui/views/main_view.dart';
 import 'package:wookie_movies_app/ui/views/movie_detail_view.dart';
 
 @StackedApp(
   routes: [
-    MaterialRoute(page: MoviesView),
+    MaterialRoute(page: MainView, initial: true),
     MaterialRoute(page: MovieDetailView),
   ],
   dependencies: [

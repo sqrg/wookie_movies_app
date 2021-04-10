@@ -10,14 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import 'core/models/movie.dart';
+import 'ui/views/main_view.dart';
 import 'ui/views/movie_detail_view.dart';
-import 'ui/views/movies_view.dart';
 
 class Routes {
-  static const String moviesView = '/movies-view';
+  static const String mainView = '/';
   static const String movieDetailView = '/movie-detail-view';
   static const all = <String>{
-    moviesView,
+    mainView,
     movieDetailView,
   };
 }
@@ -26,18 +26,15 @@ class StackedRouter extends RouterBase {
   @override
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
-    RouteDef(Routes.moviesView, page: MoviesView),
+    RouteDef(Routes.mainView, page: MainView),
     RouteDef(Routes.movieDetailView, page: MovieDetailView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, StackedRouteFactory>{
-    MoviesView: (data) {
-      var args = data.getArgs<MoviesViewArguments>(
-        orElse: () => MoviesViewArguments(),
-      );
+    MainView: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => MoviesView(key: args.key),
+        builder: (context) => MainView(),
         settings: data,
       );
     },
@@ -59,12 +56,6 @@ class StackedRouter extends RouterBase {
 /// ************************************************************************
 /// Arguments holder classes
 /// *************************************************************************
-
-/// MoviesView arguments holder class
-class MoviesViewArguments {
-  final Key key;
-  MoviesViewArguments({this.key});
-}
 
 /// MovieDetailView arguments holder class
 class MovieDetailViewArguments {

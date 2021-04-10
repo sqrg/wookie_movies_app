@@ -18,6 +18,7 @@ class MoviesView extends StatelessWidget {
         await vm.initialize();
       },
       builder: (context, vm, child) => Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
         body: SafeArea(
           child: Container(
             child: ListView.builder(

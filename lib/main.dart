@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
           themeMode: themeMode,
           navigatorKey: StackedService.navigatorKey,
           onGenerateRoute: StackedRouter().onGenerateRoute,
-          initialRoute: Routes.moviesView,
+          initialRoute: Routes.mainView,
         ),
       ),
     );

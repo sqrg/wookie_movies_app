@@ -15,6 +15,7 @@ class MovieStarRatingWidget extends StatelessWidget {
     }
 
     List<Widget> stars = [];
+
     for (var i = 0; i < rating; i++) {
       stars.add(Icon(Icons.star, color: Colors.orange));
     }
@@ -24,6 +25,7 @@ class MovieStarRatingWidget extends StatelessWidget {
     }
 
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: stars,
     );
   }
