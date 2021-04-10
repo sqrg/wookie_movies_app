@@ -21,19 +21,44 @@ class MoviesView extends StatelessWidget {
         backgroundColor: Theme.of(context).backgroundColor,
         body: SafeArea(
           child: Container(
+            margin: EdgeInsets.only(top: 15, left: 15),
             child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: vm.movies.length,
-                itemBuilder: (BuildContext context, int index) {
-                  Movie movie = vm.movies[index];
-                  return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    child: MovieItemWidget(
-                      posterUrl: movie.poster,
-                      onTap: () {
-                        vm.navigateToMovieDetail(movie);
-                      },
-                    ),
+                scrollDirection: Axis.vertical,
+                itemCount: vm.moviesGroupedByGenre.keys.length,
+                itemBuilder: (BuildContext context, int genreIndex) {
+                  String genre = vm.moviesGroupedByGenre.keys.elementAt(genreIndex);
+                  List<Movie> movies = vm.moviesGroupedByGenre[genre];
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            genre,
+                            style: Theme.of(context).textTheme.headline1,
+                          )),
+                      SizedBox(
+                        height: 200,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: movies.length,
+                          itemBuilder: (BuildContext context, int movieIndex) {
+                            Movie movie = movies[movieIndex];
+
+                            return Container(
+                              margin: EdgeInsets.symmetric(horizontal: 10),
+                              child: MovieItemWidget(
+                                posterUrl: movie.poster,
+                                onTap: () {
+                                  vm.navigateToMovieDetail(movie);
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   );
                 }),
           ),

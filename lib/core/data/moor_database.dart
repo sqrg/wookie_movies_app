@@ -11,9 +11,9 @@ class Movies extends Table {
   RealColumn get imdbRating => real()();
   DateTimeColumn get releasedOn => dateTime().nullable()();
   TextColumn get length => text().withLength(min: 1, max: 20)();
+  TextColumn get genres => text().withLength(min: 1, max: 100).nullable()();
   // directors
   // cast
-  // overview
 
 }
 
@@ -26,6 +26,8 @@ class AppDatabase extends _$AppDatabase {
 
   // Queries
   Future<List<Movie>> getAllMovies() => select(movies).get();
+
+  Future<List<Movie>> getMoviesByGenre(String genre) => (select(movies)..where((m) => m.genres.like('%$genre%'))).get();
 
   Future insertMovie(Movie movie) => into(movies).insert(movie);
 

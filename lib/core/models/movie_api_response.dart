@@ -38,8 +38,21 @@ class MovieApiResponse {
   String slug;
   String title;
 
-  MovieApiResponse(
-      {this.backdrop, this.cast, this.classification, this.director, this.genres, this.id, this.imdbRating, this.length, this.overview, this.poster, this.releasedOn, this.slug, this.title});
+  MovieApiResponse({
+    this.backdrop,
+    this.cast,
+    this.classification,
+    this.director,
+    this.genres,
+    this.id,
+    this.imdbRating,
+    this.length,
+    this.overview,
+    this.poster,
+    this.releasedOn,
+    this.slug,
+    this.title,
+  });
 
   MovieApiResponse.fromJson(Map<String, dynamic> json) {
     backdrop = json['backdrop'];
@@ -101,13 +114,14 @@ class MovieApiResponse {
 
   Movie toDbMovie() {
     return Movie(
-      backdrop: backdrop,
-      imdbRating: imdbRating,
-      length: length,
+      title: title,
       overview: overview,
       poster: poster,
-      title: title,
+      backdrop: backdrop,
+      imdbRating: imdbRating,
       releasedOn: releasedOn,
+      length: length,
+      genres: genres.join(' '),
     );
   }
 }
