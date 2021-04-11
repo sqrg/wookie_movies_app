@@ -27,7 +27,16 @@ class MovieBackdropWidget extends StatelessWidget {
             if (loadingProgress == null) {
               return child;
             }
-            return Center(child: CircularProgressIndicator());
+            return SizedBox(
+              height: backdropHeight,
+              width: backdropWidth,
+              child: Center(child: CircularProgressIndicator()));
+          },
+          errorBuilder: (BuildContext context, Object object, StackTrace e) {
+            return SizedBox(
+              height: backdropHeight,
+              width: backdropWidth,
+              child: Icon(Icons.error, color: Colors.white,));
           },
         ),
         Positioned(
