@@ -43,7 +43,6 @@ dependencies:
 
   # Others
   shared_preferences: ^2.0.5
-  flutter_secure_storage: ^4.1.0
   stacked_themes: ^0.3.2
   overlay_support: ^1.2.0
 
