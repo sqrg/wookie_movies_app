@@ -12,8 +12,8 @@ class MovieCastWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO
-    return Text('TODO');
-    //return Text('Cast: ${movie.castText}', style: Theme.of(context).textTheme.bodyText1);
+    if (movie.cast == null) return Container();
+    
+    return Text('Cast: ${movie.cast}', style: Theme.of(context).textTheme.bodyText1);
   }
 }

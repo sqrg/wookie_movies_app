@@ -8,7 +8,6 @@ part of 'moor_database.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
 class Movie extends DataClass implements Insertable<Movie> {
-  final int id;
   final String title;
   final String overview;
   final String poster;
@@ -17,25 +16,26 @@ class Movie extends DataClass implements Insertable<Movie> {
   final DateTime releasedOn;
   final String length;
   final String genres;
+  final String cast;
+  final String directors;
   Movie(
-      {this.id,
-      @required this.title,
+      {@required this.title,
       @required this.overview,
       @required this.poster,
       @required this.backdrop,
       @required this.imdbRating,
       this.releasedOn,
       @required this.length,
-      this.genres});
+      this.genres,
+      this.cast,
+      this.directors});
   factory Movie.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
-    final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
     final doubleType = db.typeSystem.forDartType<double>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return Movie(
-      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       title:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}title']),
       overview: stringType
@@ -52,14 +52,14 @@ class Movie extends DataClass implements Insertable<Movie> {
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}length']),
       genres:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}genres']),
+      cast: stringType.mapFromDatabaseResponse(data['${effectivePrefix}cast']),
+      directors: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}directors']),
     );
   }
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (!nullToAbsent || id != null) {
-      map['id'] = Variable<int>(id);
-    }
     if (!nullToAbsent || title != null) {
       map['title'] = Variable<String>(title);
     }
@@ -84,12 +84,17 @@ class Movie extends DataClass implements Insertable<Movie> {
     if (!nullToAbsent || genres != null) {
       map['genres'] = Variable<String>(genres);
     }
+    if (!nullToAbsent || cast != null) {
+      map['cast'] = Variable<String>(cast);
+    }
+    if (!nullToAbsent || directors != null) {
+      map['directors'] = Variable<String>(directors);
+    }
     return map;
   }
 
   MoviesCompanion toCompanion(bool nullToAbsent) {
     return MoviesCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       title:
           title == null && nullToAbsent ? const Value.absent() : Value(title),
       overview: overview == null && nullToAbsent
@@ -110,6 +115,10 @@ class Movie extends DataClass implements Insertable<Movie> {
           length == null && nullToAbsent ? const Value.absent() : Value(length),
       genres:
           genres == null && nullToAbsent ? const Value.absent() : Value(genres),
+      cast: cast == null && nullToAbsent ? const Value.absent() : Value(cast),
+      directors: directors == null && nullToAbsent
+          ? const Value.absent()
+          : Value(directors),
     );
   }
 
@@ -117,7 +126,6 @@ class Movie extends DataClass implements Insertable<Movie> {
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return Movie(
-      id: serializer.fromJson<int>(json['id']),
       title: serializer.fromJson<String>(json['title']),
       overview: serializer.fromJson<String>(json['overview']),
       poster: serializer.fromJson<String>(json['poster']),
@@ -126,13 +134,14 @@ class Movie extends DataClass implements Insertable<Movie> {
       releasedOn: serializer.fromJson<DateTime>(json['releasedOn']),
       length: serializer.fromJson<String>(json['length']),
       genres: serializer.fromJson<String>(json['genres']),
+      cast: serializer.fromJson<String>(json['cast']),
+      directors: serializer.fromJson<String>(json['directors']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
       'title': serializer.toJson<String>(title),
       'overview': serializer.toJson<String>(overview),
       'poster': serializer.toJson<String>(poster),
@@ -141,21 +150,23 @@ class Movie extends DataClass implements Insertable<Movie> {
       'releasedOn': serializer.toJson<DateTime>(releasedOn),
       'length': serializer.toJson<String>(length),
       'genres': serializer.toJson<String>(genres),
+      'cast': serializer.toJson<String>(cast),
+      'directors': serializer.toJson<String>(directors),
     };
   }
 
   Movie copyWith(
-          {int id,
-          String title,
+          {String title,
           String overview,
           String poster,
           String backdrop,
           double imdbRating,
           DateTime releasedOn,
           String length,
-          String genres}) =>
+          String genres,
+          String cast,
+          String directors}) =>
       Movie(
-        id: id ?? this.id,
         title: title ?? this.title,
         overview: overview ?? this.overview,
         poster: poster ?? this.poster,
@@ -164,11 +175,12 @@ class Movie extends DataClass implements Insertable<Movie> {
         releasedOn: releasedOn ?? this.releasedOn,
         length: length ?? this.length,
         genres: genres ?? this.genres,
+        cast: cast ?? this.cast,
+        directors: directors ?? this.directors,
       );
   @override
   String toString() {
     return (StringBuffer('Movie(')
-          ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('overview: $overview, ')
           ..write('poster: $poster, ')
@@ -176,31 +188,36 @@ class Movie extends DataClass implements Insertable<Movie> {
           ..write('imdbRating: $imdbRating, ')
           ..write('releasedOn: $releasedOn, ')
           ..write('length: $length, ')
-          ..write('genres: $genres')
+          ..write('genres: $genres, ')
+          ..write('cast: $cast, ')
+          ..write('directors: $directors')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode => $mrjf($mrjc(
-      id.hashCode,
+      title.hashCode,
       $mrjc(
-          title.hashCode,
+          overview.hashCode,
           $mrjc(
-              overview.hashCode,
+              poster.hashCode,
               $mrjc(
-                  poster.hashCode,
+                  backdrop.hashCode,
                   $mrjc(
-                      backdrop.hashCode,
+                      imdbRating.hashCode,
                       $mrjc(
-                          imdbRating.hashCode,
-                          $mrjc(releasedOn.hashCode,
-                              $mrjc(length.hashCode, genres.hashCode)))))))));
+                          releasedOn.hashCode,
+                          $mrjc(
+                              length.hashCode,
+                              $mrjc(
+                                  genres.hashCode,
+                                  $mrjc(cast.hashCode,
+                                      directors.hashCode))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is Movie &&
-          other.id == this.id &&
           other.title == this.title &&
           other.overview == this.overview &&
           other.poster == this.poster &&
@@ -208,11 +225,12 @@ class Movie extends DataClass implements Insertable<Movie> {
           other.imdbRating == this.imdbRating &&
           other.releasedOn == this.releasedOn &&
           other.length == this.length &&
-          other.genres == this.genres);
+          other.genres == this.genres &&
+          other.cast == this.cast &&
+          other.directors == this.directors);
 }
 
 class MoviesCompanion extends UpdateCompanion<Movie> {
-  final Value<int> id;
   final Value<String> title;
   final Value<String> overview;
   final Value<String> poster;
@@ -221,8 +239,9 @@ class MoviesCompanion extends UpdateCompanion<Movie> {
   final Value<DateTime> releasedOn;
   final Value<String> length;
   final Value<String> genres;
+  final Value<String> cast;
+  final Value<String> directors;
   const MoviesCompanion({
-    this.id = const Value.absent(),
     this.title = const Value.absent(),
     this.overview = const Value.absent(),
     this.poster = const Value.absent(),
@@ -231,9 +250,10 @@ class MoviesCompanion extends UpdateCompanion<Movie> {
     this.releasedOn = const Value.absent(),
     this.length = const Value.absent(),
     this.genres = const Value.absent(),
+    this.cast = const Value.absent(),
+    this.directors = const Value.absent(),
   });
   MoviesCompanion.insert({
-    this.id = const Value.absent(),
     @required String title,
     @required String overview,
     @required String poster,
@@ -242,6 +262,8 @@ class MoviesCompanion extends UpdateCompanion<Movie> {
     this.releasedOn = const Value.absent(),
     @required String length,
     this.genres = const Value.absent(),
+    this.cast = const Value.absent(),
+    this.directors = const Value.absent(),
   })  : title = Value(title),
         overview = Value(overview),
         poster = Value(poster),
@@ -249,7 +271,6 @@ class MoviesCompanion extends UpdateCompanion<Movie> {
         imdbRating = Value(imdbRating),
         length = Value(length);
   static Insertable<Movie> custom({
-    Expression<int> id,
     Expression<String> title,
     Expression<String> overview,
     Expression<String> poster,
@@ -258,9 +279,10 @@ class MoviesCompanion extends UpdateCompanion<Movie> {
     Expression<DateTime> releasedOn,
     Expression<String> length,
     Expression<String> genres,
+    Expression<String> cast,
+    Expression<String> directors,
   }) {
     return RawValuesInsertable({
-      if (id != null) 'id': id,
       if (title != null) 'title': title,
       if (overview != null) 'overview': overview,
       if (poster != null) 'poster': poster,
@@ -269,21 +291,23 @@ class MoviesCompanion extends UpdateCompanion<Movie> {
       if (releasedOn != null) 'released_on': releasedOn,
       if (length != null) 'length': length,
       if (genres != null) 'genres': genres,
+      if (cast != null) 'cast': cast,
+      if (directors != null) 'directors': directors,
     });
   }
 
   MoviesCompanion copyWith(
-      {Value<int> id,
-      Value<String> title,
+      {Value<String> title,
       Value<String> overview,
       Value<String> poster,
       Value<String> backdrop,
       Value<double> imdbRating,
       Value<DateTime> releasedOn,
       Value<String> length,
-      Value<String> genres}) {
+      Value<String> genres,
+      Value<String> cast,
+      Value<String> directors}) {
     return MoviesCompanion(
-      id: id ?? this.id,
       title: title ?? this.title,
       overview: overview ?? this.overview,
       poster: poster ?? this.poster,
@@ -292,15 +316,14 @@ class MoviesCompanion extends UpdateCompanion<Movie> {
       releasedOn: releasedOn ?? this.releasedOn,
       length: length ?? this.length,
       genres: genres ?? this.genres,
+      cast: cast ?? this.cast,
+      directors: directors ?? this.directors,
     );
   }
 
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
     if (title.present) {
       map['title'] = Variable<String>(title.value);
     }
@@ -325,13 +348,18 @@ class MoviesCompanion extends UpdateCompanion<Movie> {
     if (genres.present) {
       map['genres'] = Variable<String>(genres.value);
     }
+    if (cast.present) {
+      map['cast'] = Variable<String>(cast.value);
+    }
+    if (directors.present) {
+      map['directors'] = Variable<String>(directors.value);
+    }
     return map;
   }
 
   @override
   String toString() {
     return (StringBuffer('MoviesCompanion(')
-          ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('overview: $overview, ')
           ..write('poster: $poster, ')
@@ -339,7 +367,9 @@ class MoviesCompanion extends UpdateCompanion<Movie> {
           ..write('imdbRating: $imdbRating, ')
           ..write('releasedOn: $releasedOn, ')
           ..write('length: $length, ')
-          ..write('genres: $genres')
+          ..write('genres: $genres, ')
+          ..write('cast: $cast, ')
+          ..write('directors: $directors')
           ..write(')'))
         .toString();
   }
@@ -349,15 +379,6 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
   final GeneratedDatabase _db;
   final String _alias;
   $MoviesTable(this._db, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedIntColumn _id;
-  @override
-  GeneratedIntColumn get id => _id ??= _constructId();
-  GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, false,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
-  }
-
   final VerificationMeta _titleMeta = const VerificationMeta('title');
   GeneratedTextColumn _title;
   @override
@@ -437,9 +458,26 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
         minTextLength: 1, maxTextLength: 100);
   }
 
+  final VerificationMeta _castMeta = const VerificationMeta('cast');
+  GeneratedTextColumn _cast;
+  @override
+  GeneratedTextColumn get cast => _cast ??= _constructCast();
+  GeneratedTextColumn _constructCast() {
+    return GeneratedTextColumn('cast', $tableName, true,
+        minTextLength: 1, maxTextLength: 200);
+  }
+
+  final VerificationMeta _directorsMeta = const VerificationMeta('directors');
+  GeneratedTextColumn _directors;
+  @override
+  GeneratedTextColumn get directors => _directors ??= _constructDirectors();
+  GeneratedTextColumn _constructDirectors() {
+    return GeneratedTextColumn('directors', $tableName, true,
+        minTextLength: 1, maxTextLength: 200);
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
-        id,
         title,
         overview,
         poster,
@@ -447,7 +485,9 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
         imdbRating,
         releasedOn,
         length,
-        genres
+        genres,
+        cast,
+        directors
       ];
   @override
   $MoviesTable get asDslTable => this;
@@ -460,9 +500,6 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
-    }
     if (data.containsKey('title')) {
       context.handle(
           _titleMeta, title.isAcceptableOrUnknown(data['title'], _titleMeta));
@@ -511,11 +548,19 @@ class $MoviesTable extends Movies with TableInfo<$MoviesTable, Movie> {
       context.handle(_genresMeta,
           genres.isAcceptableOrUnknown(data['genres'], _genresMeta));
     }
+    if (data.containsKey('cast')) {
+      context.handle(
+          _castMeta, cast.isAcceptableOrUnknown(data['cast'], _castMeta));
+    }
+    if (data.containsKey('directors')) {
+      context.handle(_directorsMeta,
+          directors.isAcceptableOrUnknown(data['directors'], _directorsMeta));
+    }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {title};
   @override
   Movie map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;

@@ -28,10 +28,16 @@ class MoviesViewModel extends BaseViewModel {
   Future initialize() async {
     setBusy(true);
 
+    await refreshMovies();
+
+    setBusy(false);
+  }
+
+  Future refreshMovies() async {
     apiMovies = await _moviesService.getMovies();
 
     for (var apiMovie in apiMovies) {
-      //_appDatabase.insertMovie(apiMovie.toDbMovie());
+      _appDatabase.insertOrUpdateMovie(apiMovie.toDbMovie());
     }
 
     movies = await _appDatabase.getAllMovies();
@@ -41,8 +47,6 @@ class MoviesViewModel extends BaseViewModel {
     for (var genre in genres) {
       moviesGroupedByGenre[genre] = await _appDatabase.getMoviesByGenre(genre);
     }
-
-    setBusy(false);
   }
 
   void navigateToMovieDetail(Movie movie) {

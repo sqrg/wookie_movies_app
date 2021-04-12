@@ -14,8 +14,7 @@ class MovieShortInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      // TODO
-      '${DateFormat('yyyy').format(movie.releasedOn)} | ${movie.length} | DIRECTOR',
+      '${DateFormat('yyyy').format(movie.releasedOn)} | ${movie.length} | ${movie.directors}',
       textAlign: TextAlign.center,
       style: Theme.of(context).textTheme.headline1,
     );

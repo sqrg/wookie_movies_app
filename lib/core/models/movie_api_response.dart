@@ -94,24 +94,6 @@ class MovieApiResponse {
     return data;
   }
 
-  int get starRating {
-    if (imdbRating >= 9) return 5;
-    if (imdbRating >= 7) return 4;
-    if (imdbRating >= 5) return 3;
-    if (imdbRating >= 3) return 2;
-    return 1;
-  }
-
-  String get castText {
-    String tempString = '';
-
-    for (var person in cast) {
-      tempString += '$person, ';
-    }
-
-    return tempString.substring(0, tempString.length - 2);
-  }
-
   Movie toDbMovie() {
     return Movie(
       title: title,
@@ -122,6 +104,8 @@ class MovieApiResponse {
       releasedOn: releasedOn,
       length: length,
       genres: genres.join(' '),
+      cast: cast.join(', '),
+      directors: director.join(', '),
     );
   }
 }

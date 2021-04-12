@@ -5,6 +5,7 @@ import 'package:stacked/stacked.dart';
 import 'package:wookie_movies_app/core/data/moor_database.dart';
 import 'package:wookie_movies_app/core/viewmodels/movies_viewmodel.dart';
 
+import 'package:wookie_movies_app/ui/widgets/fullscreen_loading_widget.dart';
 import 'package:wookie_movies_app/ui/widgets/movies_horizontal_list_widget.dart';
 
 class MoviesView extends StatelessWidget {
@@ -20,41 +21,44 @@ class MoviesView extends StatelessWidget {
       builder: (context, vm, child) => Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         body: SafeArea(
-          child: Container(
-            margin: EdgeInsets.only(top: 15, left: 15),
-            child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                itemCount: vm.moviesGroupedByGenre.keys.length,
-                itemBuilder: (BuildContext context, int genreIndex) {
-                  String genre = vm.moviesGroupedByGenre.keys.elementAt(genreIndex);
-                  List<Movie> movies = vm.moviesGroupedByGenre[genre];
+          child: Stack(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 15, left: 15),
+                child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: vm.moviesGroupedByGenre.keys.length,
+                    itemBuilder: (BuildContext context, int genreIndex) {
+                      String genre = vm.moviesGroupedByGenre.keys.elementAt(genreIndex);
+                      List<Movie> movies = vm.moviesGroupedByGenre[genre];
 
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                          margin: EdgeInsets.symmetric(vertical: 10),
-                          child: Text(
-                            genre,
-                            style: Theme.of(context).textTheme.headline1,
-                          )),
-                      SizedBox(
-                        height: 200,
-                        child: MoviesHorizontalList(
-                          movies: movies,
-                          onTap: (Movie m) {
-                            vm.navigateToMovieDetail(m);
-                          },
-                        ),
-                      ),
-                    ],
-                  );
-                }),
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                              margin: EdgeInsets.symmetric(vertical: 10),
+                              child: Text(
+                                genre,
+                                style: Theme.of(context).textTheme.headline1,
+                              )),
+                          SizedBox(
+                            height: 200,
+                            child: MoviesHorizontalList(
+                              movies: movies,
+                              onTap: (Movie m) {
+                                vm.navigateToMovieDetail(m);
+                              },
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
+              ),
+              vm.isBusy ? FullScreenLoadingWidget() : Container(),
+            ],
           ),
         ),
       ),
     );
   }
 }
-
-

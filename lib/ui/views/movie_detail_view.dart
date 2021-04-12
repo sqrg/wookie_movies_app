@@ -22,6 +22,8 @@ class MovieDetailView extends StatelessWidget {
     double backdropWidth = MediaQuery.of(context).size.width;
     double posterHeight = 220;
 
+    int starRating = imdbRatingToStarRating(movie.imdbRating);
+
     return ViewModelBuilder<MovieDetailViewModel>.reactive(
       viewModelBuilder: () => MovieDetailViewModel(),
       builder: (context, vm, child) => Scaffold(
@@ -43,15 +45,17 @@ class MovieDetailView extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Center(
-                            child: MoviePosterWidget(posterUrl: movie.poster, height: posterHeight),
+                            child: MoviePosterWidget(
+                              posterUrl: movie.poster,
+                              height: posterHeight,
+                            ),
                           ),
                         ),
                         Expanded(
                           child: Container(
                             margin: EdgeInsets.only(top: 30),
                             child: Center(
-                              // TODO
-                              child: MovieStarRatingWidget(2),
+                              child: MovieStarRatingWidget(starRating),
                             ),
                           ),
                         ),
@@ -79,5 +83,24 @@ class MovieDetailView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  int imdbRatingToStarRating(double imdbRating) {
+    if (imdbRating >= 9) return 5;
+    if (imdbRating >= 7) return 4;
+    if (imdbRating >= 5) return 3;
+    if (imdbRating >= 3) return 2;
+    return 1;
+  }
+
+  String castText() {
+    String tempString = '';
+
+    /*for (var person in cast) {
+      tempString += '$person, ';
+    }
+    */
+
+    return tempString.substring(0, tempString.length - 2);
   }
 }
