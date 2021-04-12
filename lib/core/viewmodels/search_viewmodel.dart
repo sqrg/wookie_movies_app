@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -15,6 +17,8 @@ class SearchViewModel extends BaseViewModel {
 
   List<MovieApiResponse> movies = [];
 
+  bool connectivity;
+
   Future searchMovies(String searchTerm) async {
     setBusy(true);
 
@@ -22,6 +26,19 @@ class SearchViewModel extends BaseViewModel {
       _dialogService.showCustomDialog(
         variant: DialogType.Ko,
         description: 'Debe ingresar un término a buscar',
+      );
+
+      setBusy(false);
+
+      return;
+    }
+
+    connectivity = await _checkForConnectivity();
+
+    if (!connectivity) {
+      _dialogService.showCustomDialog(
+        variant: DialogType.Ko,
+        description: 'No dispone de conectividad para realizar la búsqueda',
       );
 
       setBusy(false);
@@ -45,5 +62,16 @@ class SearchViewModel extends BaseViewModel {
       Routes.movieDetailView,
       arguments: MovieDetailViewArguments(movie: movie.toDbMovie()),
     );
+  }
+
+  Future<bool> _checkForConnectivity() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        return true;
+      }
+    } on SocketException catch (_) {
+      return false;
+    }
   }
 }

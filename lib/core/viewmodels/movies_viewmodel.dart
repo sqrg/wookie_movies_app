@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -25,19 +27,23 @@ class MoviesViewModel extends BaseViewModel {
 
   Map moviesGroupedByGenre = Map();
 
+  bool connectivity;
+
   Future initialize() async {
-    setBusy(true);
-
     await refreshMovies();
-
-    setBusy(false);
   }
 
   Future refreshMovies() async {
-    apiMovies = await _moviesService.getMovies();
+    setBusy(true);
 
-    for (var apiMovie in apiMovies) {
-      _appDatabase.insertOrUpdateMovie(apiMovie.toDbMovie());
+    connectivity = await _checkForConnectivity();
+
+    if (connectivity) {
+      apiMovies = await _moviesService.getMovies();
+
+      for (var apiMovie in apiMovies) {
+        _appDatabase.insertOrUpdateMovie(apiMovie.toDbMovie());
+      }
     }
 
     movies = await _appDatabase.getAllMovies();
@@ -47,6 +53,8 @@ class MoviesViewModel extends BaseViewModel {
     for (var genre in genres) {
       moviesGroupedByGenre[genre] = await _appDatabase.getMoviesByGenre(genre);
     }
+
+    setBusy(false);
   }
 
   void navigateToMovieDetail(Movie movie) {
@@ -54,5 +62,16 @@ class MoviesViewModel extends BaseViewModel {
       Routes.movieDetailView,
       arguments: MovieDetailViewArguments(movie: movie),
     );
+  }
+
+  Future<bool> _checkForConnectivity() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        return true;
+      }
+    } on SocketException catch (_) {
+      return false;
+    }
   }
 }
