@@ -5,10 +5,12 @@ class MoviePosterWidget extends StatelessWidget {
     Key key,
     @required this.posterUrl,
     @required this.height,
+    this.width,
   }) : super(key: key);
 
   final String posterUrl;
   final double height;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +19,12 @@ class MoviePosterWidget extends StatelessWidget {
       child: Image.network(
         posterUrl,
         height: height,
+        errorBuilder: (BuildContext context, Object object, StackTrace e) {
+            return SizedBox(
+              height: height,
+              width: 120,
+              child: Icon(Icons.error, color: Colors.white,));
+          },
       ),
     );
   }

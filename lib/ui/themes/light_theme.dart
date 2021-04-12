@@ -11,6 +11,7 @@ ThemeData getLightTheme() {
       bodyText1: TextStyle(color: Colors.black, fontSize: 20),
       bodyText2: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w300),
       headline1: TextStyle(color: Colors.black, fontSize: 24),
+      headline2: TextStyle(color: Colors.black, fontSize: 16),
     ),
     backgroundColor: Colors.white,
     textButtonTheme: baseTheme.textButtonTheme,

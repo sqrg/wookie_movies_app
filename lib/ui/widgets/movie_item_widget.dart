@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 class MovieItemWidget extends StatelessWidget {
   const MovieItemWidget({
     Key key,
+    this.title,
     @required this.posterUrl,
     @required this.onTap,
   }) : super(key: key);
 
+  final String title;
   final String posterUrl;
   final Function onTap;
 
@@ -25,15 +27,29 @@ class MovieItemWidget extends StatelessWidget {
               return child;
             }
             return SizedBox(
-              //height: backdropHeight,
               width: boxWidth,
-              child: Center(child: CircularProgressIndicator()));
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
           },
           errorBuilder: (BuildContext context, Object object, StackTrace e) {
             return SizedBox(
-              //height: backdropHeight,
-              width: boxWidth,
-              child: Icon(Icons.error, color: Colors.white,));
+                width: boxWidth,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.error,
+                      color: Colors.white,
+                    ),
+                    Text(
+                      title ?? '',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headline2,
+                    )
+                  ],
+                ));
           },
         ),
       ),

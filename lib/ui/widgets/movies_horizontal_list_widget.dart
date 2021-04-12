@@ -25,6 +25,7 @@ class MoviesHorizontalList extends StatelessWidget {
         return Container(
           margin: EdgeInsets.symmetric(horizontal: 10),
           child: MovieItemWidget(
+            title: movie.title,
             posterUrl: movie.poster,
             onTap: () {
               onTap(movie);
