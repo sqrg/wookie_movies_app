@@ -52,6 +52,10 @@ class BaseAlertDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).backgroundColor,
+          border: Border.all(color: Theme.of(context).primaryColor, width: 2),
+        ),
         padding: EdgeInsets.all(15),
         child: Column(
           mainAxisSize: MainAxisSize.min,

@@ -24,6 +24,18 @@ class MoviesService {
     return response.movies;
   }
 
+  Future<List<MovieApiResponse>> searchMovies(String searchTerm) async {
+    var rawResponse = await _api.get(
+      '/movies',
+      headers: {'Authorization': 'Bearer Wookie2019'},
+      queryParameters: {'q': searchTerm},
+    );
+
+    MoviesApiResponse response = MoviesApiResponse.fromJson(rawResponse);
+
+    return response.movies;
+  }
+
   Future saveCategories(List<MovieApiResponse> movies) async {
     List<String> genres = [];
 
