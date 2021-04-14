@@ -73,5 +73,7 @@ class SearchViewModel extends BaseViewModel {
     } on SocketException catch (_) {
       return false;
     }
+
+    return false;
   }
 }
